@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based Dashboard</title>
+    <script src="https://apis.mapmyindia.com/advancedmaps/v1/565c1e6bc66610c192e80079ec366ca6/map_load?v=1.5"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background: #e0f7fa; }
+        .container { max-width: 600px; margin: 50px auto; padding: 30px; background-color: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-radius: 12px; text-align: center; }
+        h1 { color: #0277bd; }
+        select, button, input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #90caf9; border-radius: 6px; font-size: 16px; }
+        button { background-color: #0288d1; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #0277bd; }
+        .dashboard { padding: 20px; border: 1px solid #90caf9; border-radius: 8px; margin-top: 20px; background-color: #e3f2fd; display: none; }
+        #map { height: 400px; width: 100%; border-radius: 10px; margin-top: 20px; }
+        #location-info, #assigned-location { padding: 10px; background: #edf2f7; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Company Role Dashboard</h1>
+        <select id="roleSelector">
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="employee">Employee</option>
+        </select>
+        <button onclick="showDashboard()">Enter Dashboard</button>
+
+        <!-- Employee Panel -->
+        <div id="employeeDashboard" class="dashboard">
+            <h2>Employee Panel</h2>
+            <button onclick="checkLocation()">Check Location Status</button>
+            <p id="assigned-location">Assigned Location will appear here...</p>
+            <p id="location-info">Current Location will appear here...</p>
+            <div id="map"></div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminDashboard" class="dashboard">
+            <h2>Admin Panel</h2>
+            <button onclick="toggleManageEmployees()">Manage Employees</button>
+            <button>View Reports</button>
+
+            <div id="manageEmployeeSection" style="display: none;">
+                <h3>Assign Remote Work Location</h3>
+                <input type="email" id="employeeEmail" placeholder="Enter Employee Email">
+                <input type="text" id="locationId" placeholder="Enter Location ID">
+                <button onclick="assignLocation()">Submit</button>
+                <p id="assignmentStatus"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "565c1e6bc66610c192e80079ec366ca6"; // Only API Key, not URL
+
+        const employeeLocations = { 
+            'employee@example.com': { lat: 28.6139, lon: 77.2090, locationName: 'New Delhi Office' } 
+        };
+
+        function showDashboard() {
+            document.getElementById('employeeDashboard').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'none';
+
+            const role = document.getElementById('roleSelector').value;
+            if (role === 'employee') {
+                document.getElementById('employeeDashboard').style.display = 'block';
+            } else if (role === 'admin') {
+                document.getElementById('adminDashboard').style.display = 'block';
+            }
+        }
+
+        function checkLocation() {
+            const email = 'employee@example.com';
+            const assignedLocation = employeeLocations[email];
+
+            document.getElementById('assigned-location').textContent = `Assigned Location: ${assignedLocation.locationName}`;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    fetch(`https://apis.mapmyindia.com/advancedmaps/v1/${API_KEY}/rev_geocode?lat=${lat}&lng=${lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let locationName = "Unknown Location";
+                            if (data.results && data.results.length > 0) {
+                                locationName = data.results[0].formatted_address;
+                            }
+                            document.getElementById('location-info').textContent = `Current Location: ${locationName}`;
+
+                            if (typeof MapmyIndia !== 'undefined') {
+                                new MapmyIndia.Map('map', { center: [lat, lon], zoom: 14 });
+                            } else {
+                                console.error("MapmyIndia API not loaded.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Reverse geocoding error:", error);
+                            document.getElementById('location-info').textContent = "Error retrieving location name.";
+                        });
+
+                }, error => {
+                    document.getElementById('location-info').textContent = "Geolocation permission denied.";
+                });
+            } else {
+                document.getElementById('location-info').textContent = "Geolocation not supported.";
+            }
+        }
+
+        function toggleManageEmployees() {
+            let section = document.getElementById('manageEmployeeSection');
+            section.style.display = (section.style.display === 'none') ? 'block' : 'none';
+        }
+
+        function assignLocation() {
+            const email = document.getElementById('employeeEmail').value;
+            const locationId = document.getElementById('locationId').value;
+            if (email && locationId) {
+                document.getElementById('assignmentStatus').textContent = `Assigned Location ID ${locationId} to ${email}`;
+            } else {
+                document.getElementById('assignmentStatus').textContent = 'Please enter a valid email and location ID.';
+            }
+        }
+    </script>
+</body>
+</html>
