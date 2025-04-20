@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Image</title>
+    <style>
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #004085, #009688);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h3 {
+            color: #004085;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            border: 2px solid #004085;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 90%;
+            border-radius: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-decoration: none;
+            width: 90%;
+            border: none;
+        }
+
+        /* Primary Button (Capture) */
+        .btn-primary {
+            background: linear-gradient(135deg, #009688, #004085);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #004085, #009688);
+            transform: scale(1.05);
+        }
+
+        /* Captured Image */
+        .captured-image {
+            display: none;
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid #004085;
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875em;
+            display: none;
+            margin-top: 10px;
+        }
+
+        a {
+            color: #009688;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="user-info" class="mb-3"></div>
+        <h1>Capture Image</h1>
+        <video id="video" autoplay></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+                
+        <button id="captureButton" class="btn btn-primary">Capture</button>
+        <button type="submit" id="submitButton" style="display: none;" class="btn">Submit</button>
+    </div>
+    
+    
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const submitButton = document.getElementById('submitButton');
+
+        // Get user media for camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error("Error accessing webcam: ", error);
+            });
+
+        captureButton.addEventListener('click', function() {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvas.toDataURL('image/png');
+            localStorage.setItem('capturedImage', imageData);
+
+            captureButton.style.display = "none";
+            submitButton.style.display = "block";
+        });
+
+        submitButton.addEventListener('click', function() {
+            const signupData = JSON.parse(localStorage.getItem('signupData')) || {};
+            const imageData = localStorage.getItem('capturedImage');
+
+            if (!signupData.name || !imageData) {
+                alert("Error: Missing data. Please sign up again.");
+                window.location.href = 'signup.html';
+                return;
+            }
+
+            // Create a form dynamically
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'signup.php';
+
+            for (const key in signupData) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = signupData[key];
+                form.appendChild(input);
+            }
+
+            const imageInput = document.createElement('input');
+            imageInput.type = 'hidden';
+            imageInput.name = 'image';
+            imageInput.value = imageData;
+            form.appendChild(imageInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+    </script>
+
+</body>
+</html>

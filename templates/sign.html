@@ -1,0 +1,465 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="
+    sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="../static/images/adminlogin.css", rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="logo">
+            <img src="../static/images/companylogo.jpg" alt="">
+        </div>
+        <div class="text-center mt-4 name">
+            Face Recogniser
+        </div>
+        <form class="p-3 mt-3">
+            <div class="form-field d-flex align-items-center">
+                <span class="far fa-user"></span>
+                <input type="text" name="userName" id="userName" placeholder="Username">
+            </div>
+            <div class="form-field d-flex align-items-center">
+                <span class="fas fa-key"></span>
+                <input type="password" name="password" id="pwd" placeholder="Password">
+            </div>
+            <button class="btn mt-3">Sign Up</button>
+        </form>
+        <div class="text-center fs-6">
+            <a href="#">Forget password?</a> or <a href="./adminlogin.html">Login up</a>
+        </div>
+    </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+            position: relative;
+            border: 3px solid #4CA1AF;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            color: #2C3E50;
+            font-weight: 700;
+            font-size: 2em;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #4CA1AF;
+            border-radius: 5px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            color: #4CA1AF;
+            font-size: 1.2em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #b2bec3;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            color: #2C3E50;
+        }
+
+        input:focus, select:focus {
+            border-color: #4CA1AF;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 161, 175, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4CA1AF, #2C3E50);
+            color: white;
+            border: 2px solid #2C3E50;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2C3E50, #4CA1AF);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 161, 175, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            margin-top: 20px;
+            color: #2C3E50;
+            font-size: 0.95em;
+        }
+
+        .login-link a {
+            color: #4CA1AF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #2C3E50;
+            text-decoration: underline;
+        }
+
+        
+        @keyframes inputFocus {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        input:focus, select:focus {
+            animation: inputFocus 0.3s ease;
+        }
+
+        
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        } */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 2em;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            color: #4a5568;
+        }
+
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input::placeholder, select::placeholder {
+            color: #a0aec0;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+            padding-right: 45px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            margin-top: 25px;
+            color: #4a5568;
+            font-size: 0.95em;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Account</h1>
+        <form id="signupForm">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="name" id="name" placeholder="Enter your full name" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Create password" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-check-circle"></i>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user-shield"></i>
+                <select name="role" id="role" required>
+                    <option value="">Select your role</option>
+                    <option value="Employee">Employee</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <button type="button" id="nextButton">Continue to Photo</button>
+            <p class="login-link">Already have an account? <a href="index.html">Log In</a></p>
+        </form>
+    </div>
+
+    <script>
+        // Add focus effects for input fields
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        document.getElementById('nextButton').addEventListener('click', function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const role = document.getElementById('role').value;
+            const button = this;
+
+            if (!name || !email || !password || !confirmPassword || !role) {
+                alert("Please fill in all fields before proceeding.");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const formData = {
+                name: name,
+                email: email,
+                password: password,
+                role: role
+            };
+
+            // Add loading state
+            button.classList.add('loading');
+            button.textContent = 'Processing...';
+
+            // Store data and redirect
+            localStorage.setItem('signupData', JSON.stringify(formData));
+            setTimeout(() => {
+                window.location.href = 'capture_image.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
